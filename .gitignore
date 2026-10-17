@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtualenvs
+.venv/
+venv/
+env/
+
+# Local secrets / env files
+.env
+.env.*
+!.env.example
+hf_token.txt
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker / runtime artifacts
+*.log
+.cache/
+
+# Local model caches (do not commit downloaded weights)
+hub/
+models/finetuned-whisper/
+
+# Reports (kept outside the repo or in a separate /report folder)
+report.pdf

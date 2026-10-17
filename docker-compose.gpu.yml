@@ -1,0 +1,23 @@
+# Optional GPU override — requires nvidia-container-toolkit installed on the host.
+# Usage:
+#   docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d --build
+#
+# This override:
+#   1. Swaps the CPU-only PyTorch wheel for the CUDA 12.1 build.
+#   2. Reserves all NVIDIA GPUs for the inference container.
+
+services:
+  inference:
+    build:
+      args:
+        TORCH_INDEX_URL: https://download.pytorch.org/whl/cu121
+    environment:
+      # Keep MODEL_ID/MODEL_PATH from the base file.
+      NVIDIA_VISIBLE_DEVICES: all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

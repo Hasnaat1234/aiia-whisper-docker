@@ -1,0 +1,9 @@
+# Inference container dependencies.
+# NOTE: torch is installed separately in the Dockerfile (from a CPU or CUDA index)
+# so we do NOT include it here. This keeps the CPU/GPU swap clean.
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+python-multipart==0.0.17
+transformers==4.46.3
+librosa==0.10.2.post1
+soundfile==0.12.1

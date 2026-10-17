@@ -1,0 +1,5 @@
+# Per-service dockerignore — also enforced by the root .dockerignore.
+__pycache__/
+*.py[cod]
+.env
+*.log

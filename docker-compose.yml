@@ -1,0 +1,67 @@
+# Docker Compose — Whisper Speech-to-Text deployment (CPU)
+#
+# Two logically separated containers:
+#   - inference : FastAPI + openai/whisper-tiny
+#   - gui       : Gradio web UI (no ML deps; forwards HTTP to inference)
+#
+# Run:        docker compose up -d
+# GPU bonus:  docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d --build
+
+name: aiia-whisper-stt
+
+services:
+  inference:
+    build:
+      context: ./inference
+      args:
+        TORCH_VERSION: "2.4.1"
+        TORCH_INDEX_URL: https://download.pytorch.org/whl/cpu
+        MODEL_ID: openai/whisper-tiny
+    image: aiia/whisper-inference:latest
+    container_name: aiia-whisper-inference
+    environment:
+      MODEL_ID: openai/whisper-tiny
+      # Uncomment the next line to serve a fine-tuned model from the `models` volume
+      # MODEL_PATH: /models/finetuned-whisper
+    shm_size: 512m
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+          cpus: "2.0"
+    ports:
+      - "8000:8000"
+    volumes:
+      - models:/models
+    networks:
+      - dl-net
+    restart: unless-stopped
+
+  gui:
+    build:
+      context: ./gui
+    image: aiia/whisper-gui:latest
+    container_name: aiia-whisper-gui
+    environment:
+      INFERENCE_URL: http://inference:8000
+    shm_size: 256m
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+          cpus: "1.0"
+    ports:
+      - "7860:7860"
+    depends_on:
+      inference:
+        condition: service_healthy
+    networks:
+      - dl-net
+    restart: unless-stopped
+
+networks:
+  dl-net:
+    driver: bridge
+
+volumes:
+  models:
