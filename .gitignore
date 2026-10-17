@@ -41,3 +41,6 @@ models/finetuned-whisper/
 
 # Reports (kept outside the repo or in a separate /report folder)
 report.pdf
+
+# Report figures (kept local, not pushed)
+report/figures/
