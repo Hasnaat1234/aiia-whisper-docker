@@ -69,7 +69,7 @@ demo = gr.Interface(
     outputs=gr.Textbox(
         label="Transcription",
         lines=6,
-        placeholder="The transcribed text will appear here …",
+        placeholder="The transcribed text will appear here ???",
     ),
     title="Whisper Speech-to-Text",
     description=(
@@ -91,5 +91,7 @@ if __name__ == "__main__":
         server_name="0.0.0.0",
         server_port=7860,
         show_error=True,
+        show_api=False,
         prevent_thread_lock=False,
     )
+

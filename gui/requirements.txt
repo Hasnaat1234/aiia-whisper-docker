@@ -1,5 +1,10 @@
 # GUI container dependencies.
 # NOTE: deliberately NO machine-learning libraries here.
 # This container only forwards HTTP requests to the inference service.
-gradio==5.6.0
+# gradio 5.6 - 5.17 have a json_schema_to_python_type bug (TypeError on bool
+# additionalProperties). Fixed in gradio 5.18+. Using a range lets pip pick the
+# latest 5.x bugfix release.
+# huggingface_hub must be <1.0 because gradio 5.x imports HfFolder (removed in HF 1.0).
+gradio>=5.20,<6.0
+huggingface_hub<1.0
 httpx==0.27.2
